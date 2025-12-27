@@ -1,0 +1,22 @@
+.card img {
+    width: 100%;
+    height: Auto;
+    object-fit: cover;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: black;
+    border-color: black;
+}
+
+.pagination .page-link {
+    color: black;
+}
+
+.form-control {
+    max-width: 500px;
+}
