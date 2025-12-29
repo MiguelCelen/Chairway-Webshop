@@ -108,5 +108,93 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
 
     <div class="row" style="background: #b9b9b9; height: 500px;"></div>
 </header>
+<main class="container my-5" style="margin-top: 6rem;">
+    <h1 class="mb-4">Products</h1>
+
+    <?php if (!empty($_GET["cart"]) && $_GET["cart"] === "added"): ?>
+        <div class="alert alert-success">Product toegevoegd aan Shoppingcart.</div>
+    <?php endif; ?>
+
+    <?php if (!empty($_GET["error"])): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars((string)$_GET["error"]) ?></div>
+    <?php endif; ?>
+
+    <form class="row g-3 mb-4" method="get" action="Artikelen.php">
+        <div class="col-md-3">
+            <label class="form-label">Product-name</label>
+            <input type="text" name="q" class="form-control"
+                   placeholder="Typ a product-name"
+                   value="<?= htmlspecialchars($search) ?>">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Category</label>
+            <select name="category" class="form-select">
+                <option value="">Alle categorieën</option>
+                <?php foreach ($categories as $cat): ?>
+                    <option value="<?= htmlspecialchars($cat) ?>"
+                        <?= $cat === $category ? "selected" : "" ?>>
+                        <?= htmlspecialchars($cat) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Max. prijs (€)</label>
+            <input type="number" name="maxPrice" class="form-control"
+                   value="<?= $maxPrice > 0 ? htmlspecialchars((string)$maxPrice) : "" ?>"
+                   min="0" step="1">
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-dark w-100" type="submit">Filter</button>
+        </div>
+    </form>
+
+    <div class="row">
+        <?php if (empty($products)): ?>
+            <p>Er zijn geen producten gevonden met deze filter.</p>
+        <?php else: ?>
+            <?php foreach ($products as $p): ?>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <?php if (!empty($p["image"])): ?>
+                            <img src="<?= htmlspecialchars((string)$p["image"]) ?>" class="card-img-top"
+                                 alt="<?= htmlspecialchars((string)$p["title"]) ?>">
+                        <?php endif; ?>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title"><?= htmlspecialchars((string)$p["title"]) ?></h5>
+                            <p class="card-text">
+                                Categorie: <?= htmlspecialchars((string)$p["category"]) ?><br>
+                                <strong>€ <?= number_format((float)$p["price"], 2, ",", ".") ?></strong><br>
+                                <?= nl2br(htmlspecialchars((string)$p["description"])) ?>
+                            </p>
+                            <div class="mt-auto">
+                                <a href="ProductDetail.php?id=<?= $p["id"] ?>" class="btn btn-outline-dark w-100 mb-2">
+                                    View product
+                                </a>
+
+                                <form method="post" action="../handlers/add_to_cart.php" class="d-flex">
+                                    <input type="hidden" name="product_id" value="<?= $p["id"] ?>">
+                                    <input type="number" name="quantity" value="1" min="1"
+                                           class="form-control form-control-sm me-2" style="max-width: 80px;">
+                                    <button type="submit" class="btn btn-dark btn-sm w-100">
+                                        Add to cart
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</main>
+<footer>
+    <div class="text-center p-3" style="margin-top: 5rem;">
+        © 2025 Copyright: Chairway
+    </div>
+</footer>
 </body>
 </html>
