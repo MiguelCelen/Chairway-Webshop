@@ -86,5 +86,66 @@ foreach ($cart as $item) {
         </div>
     </nav>
 </header>
+<main>
+    <div class="container my-5">
+        <h1 class="mb-4">Winkelwagen</h1>
+        <?php if (!empty($_GET["error"])): ?>
+            <div class="alert alert-danger"><?= htmlspecialchars((string)$_GET["error"]) ?></div>
+        <?php endif; ?>
+
+        <?php if (empty($cart)): ?>
+            <p>Je winkelwagen is leeg.</p>
+            <a href="Artikelen.php" class="btn btn-dark">Verder winkelen</a>
+        <?php else: ?>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Prijs</th>
+                    <th>Aantal</th>
+                    <th>Subtotaal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($cart as $item): ?>
+                    <tr>
+                        <td>
+                            <?php if (!empty($item["image"])): ?>
+                                <img src="<?= htmlspecialchars((string)$item["image"]) ?>" alt=""
+                                    style="height:40px;width:auto;margin-right:8px;">
+                            <?php endif; ?>
+                            <?= htmlspecialchars((string)$item["title"]) ?>
+                        </td>
+                        <td>€ <?= number_format((float)$item["price"], 2, ",", ".") ?></td>
+                        <td><?= (int)$item["quantity"] ?></td>
+                        <td>€ <?= number_format($item["price"] * $item["quantity"], 2, ",", ".") ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+
+            <h4 class="mt-3">Totaal: € <?= number_format($total, 2, ",", ".") ?></h4>
+            <div class="mt-3 d-flex gap-2">
+                <a href="Artikelen.php" class="btn btn-secondary">Verder winkelen</a>
+                <a href="Winkelwagen.php?clear=1" class="btn btn-outline-danger"
+                onclick="return confirm('Winkelwagen leegmaken?');">
+                    Leeg winkelwagen
+                </a>
+                <?php if ($user): ?>
+                    <form method="post" action="../handlers/place_order.php" class="ms-auto">
+                        <button type="submit" class="btn btn-success">
+                            Bestel nu
+                        </button>
+                    </form>
+                <?php else: ?>
+                    <a href="../login.php" class="btn btn-success ms-auto">Log in om te bestellen</a>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</main>
+<footer class="text-center p-3 mt-5">
+    © 2025 Copyright: Chairway
+</footer>
 </body>
 </html>
