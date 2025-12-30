@@ -77,5 +77,37 @@ $user = User::currentUser();
             <div class="row" style="background-color: #b9b9b9; height: 500px;">
             </div>
       </header>
+      <main>
+          <div class="container">
+            <div class="row g-2" style="margin-top: 5rem; margin-bottom: 5rem;">
+              <div class="col-lg-6 d-flex justify-content-center align-items-center">
+                <img src="../Assets/Images/pawel-chu-ULh0i2txBCY-unsplash.jpg" alt="Contact us" style="width: 80%; height: auto; border-radius:10px">
+              </div>
+              <div class="col-lg-6">
+                <h2>Contact Us</h2>
+                <form action="https://formspree.io/f/movqzwjy" method="POST">
+                  <div class="mb-3">
+                    <label for="fullName" class="form-label">Full Name</label>
+                    <input type="text" class="form-control w-75" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control w-75" id="email" name="email" placeholder="Enter your email" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control w-75" id="message" name="message" rows="5" placeholder="Write your message" required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-dark">Send</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </main>
+        <footer>
+          <div class="row g-2"></div>
+          <div class="text-center p-3" style="margin-top: 5rem;">
+            © 2025 Copyright: Chairway
+        </footer>
     </body>
     </html>
