@@ -88,5 +88,45 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </nav>
 </header>
+<main>
+<div class="container my-5">
+    <h1 class="mb-4">Jouw orders</h1>
+
+    <?php if (!empty($_GET["success"])): ?>
+        <div class="alert alert-success">
+            Je bestelling is geplaatst (order #<?= htmlspecialchars((string)($_GET["order_id"] ?? "")) ?>).
+        </div>
+    <?php endif; ?>
+
+    <?php if (empty($orders)): ?>
+        <p>Je hebt nog geen orders.</p>
+        <a href="Artikelen.php" class="btn btn-dark">Naar de shop</a>
+    <?php else: ?>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Order</th>
+                <th>Producten</th>
+                <th>Totaal</th>
+                <th>Datum</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($orders as $o): ?>
+                <tr>
+                    <td><?= (int)$o["id"] ?></td>
+                    <td><?= htmlspecialchars((string)$o["details"]) ?></td>
+                    <td>€ <?= number_format((float)$o["total"], 2, ",", ".") ?></td>
+                    <td><?= htmlspecialchars((string)$o["created_at"]) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</div>
+</main>
+<footer class="text-center p-3 mt-5">
+    © 2025 Copyright: Chairway
+</footer>
 </body>
 </html>
