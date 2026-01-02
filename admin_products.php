@@ -125,5 +125,126 @@ $user = User::currentUser();
     </div>
   </div>
 </nav>
+<main>
+<div class="container my-4">
+    <h1 class="mb-4">Producten beheren</h1>
+    <?php if ($success): ?>
+        <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
+    <?php endif; ?>
+    <?php if ($error): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
+
+    <div class="card mb-4">
+        <div class="card-header">Nieuw product toevoegen</div>
+        <div class="card-body">
+            <form method="post">
+                <input type="hidden" name="action" value="add">
+                <div class="row g-2">
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">Titel</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Prijs (€)</label>
+                        <input type="number" name="price" class="form-control" min="0" step="0.01" required>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">Categorie</label>
+                        <input type="text" name="category" class="form-control">
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">Beschrijving</label>
+                        <input type="text" name="description" class="form-control">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-dark mt-3">Product toevoegen</button>
+            </form>
+        </div>
+    </div>
+
+    <h2 class="h4 mb-3">Bestaande producten</h2>
+    <div class="table-responsive">
+    <table class="table table-striped align-middle table-sm">
+        <thead>
+        <tr>
+            <th class="d-none d-md-table-cell">ID</th>
+            <th>Titel</th>
+            <th class="d-none d-sm-table-cell">Categorie</th>
+            <th>Prijs</th>
+            <th>Acties</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($products as $p): ?>
+            <tr class="border-top">
+                <td class="d-none d-md-table-cell"><?= (int)$p["id"] ?></td>
+                <td><?= htmlspecialchars((string)$p["title"]) ?></td>
+                <td class="d-none d-sm-table-cell"><?= htmlspecialchars((string)$p["category"]) ?></td>
+                <td class="fw-semibold">€ <?= number_format((float)$p["price"], 2, ",", ".") ?></td>
+                <td class="d-flex flex-column flex-md-row gap-2">
+                    <a href="admin_products.php?edit=<?= (int)$p["id"] ?>"
+                    class="btn btn-sm btn-outline-primary w-100 w-md-auto">
+                        Bewerken
+                    </a>
+
+                    <form method="post" onsubmit="return confirm('Zeker verwijderen?');" class="w-100 w-md-auto">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" value="<?= (int)$p["id"] ?>">
+                        <button type="submit" class="btn btn-sm btn-outline-danger w-100 w-md-auto">
+                            Verwijderen
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    </div>
+
+    <?php if ($editProduct): ?>
+        <div class="card mt-4">
+            <div class="card-header">
+                Product bewerken #<?= (int)$editProduct["id"] ?>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="id" value="<?= (int)$editProduct["id"] ?>">
+
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <label class="form-label">Titel</label>
+                            <input type="text" name="title" class="form-control"
+                                   value="<?= htmlspecialchars((string)$editProduct["title"]) ?>" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Prijs (€)</label>
+                            <input type="number" name="price" class="form-control" min="0" step="0.01"
+                                   value="<?= htmlspecialchars((string)$editProduct["price"]) ?>" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Categorie</label>
+                            <input type="text" name="category" class="form-control"
+                                   value="<?= htmlspecialchars((string)$editProduct["category"]) ?>">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Beschrijving</label>
+                            <input type="text" name="description" class="form-control"
+                                   value="<?= htmlspecialchars((string)$editProduct["description"]) ?>">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Opslaan</button>
+                    <a href="admin_products.php" class="btn btn-secondary mt-3">Annuleren</a>
+                </form>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+</main>
+<footer class="text-center p-3 mt-5">
+    © 2025 Copyright: Chairway
+</footer>
 </body>
 </html>
