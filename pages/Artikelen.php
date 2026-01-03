@@ -40,6 +40,7 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CHAIRWAY/Products</title>
     <link rel="stylesheet" href="../public/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -120,14 +121,14 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
     <?php endif; ?>
 
     <form class="row g-3 mb-4" method="get" action="Artikelen.php">
-        <div class="col-md-3">
+        <div class="col-12 col-md-3">
             <label class="form-label">Product-name</label>
             <input type="text" name="q" class="form-control"
                    placeholder="Typ a product-name"
                    value="<?= htmlspecialchars($search) ?>">
         </div>
 
-        <div class="col-md-3">
+        <div class="col-12 col-md-3">
             <label class="form-label">Category</label>
             <select name="category" class="form-select">
                 <option value="">Alle categorieën</option>
@@ -140,14 +141,14 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
             </select>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-12 col-md-3">
             <label class="form-label">Max. prijs (€)</label>
             <input type="number" name="maxPrice" class="form-control"
                    value="<?= $maxPrice > 0 ? htmlspecialchars((string)$maxPrice) : "" ?>"
                    min="0" step="1">
         </div>
 
-        <div class="col-md-3 d-flex align-items-end">
+        <div class="col-12 col-md-3 d-flex align-items-end">
             <button class="btn btn-dark w-100" type="submit">Filter</button>
         </div>
     </form>
@@ -157,10 +158,10 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
             <p>Er zijn geen producten gevonden met deze filter.</p>
         <?php else: ?>
             <?php foreach ($products as $p): ?>
-                <div class="col-md-3 mb-4">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                     <div class="card h-100">
                         <?php if (!empty($p["image"])): ?>
-                            <img src="<?= htmlspecialchars((string)$p["image"]) ?>" class="card-img-top"
+                            <img src="<?= htmlspecialchars((string)$p["image"]) ?>" class="card-img-top img-fluid"
                                  alt="<?= htmlspecialchars((string)$p["title"]) ?>">
                         <?php endif; ?>
                         <div class="card-body d-flex flex-column">
@@ -175,7 +176,7 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
                                     View product
                                 </a>
 
-                                <form method="post" action="../handlers/add_to_cart.php" class="d-flex">
+                                <form method="post" action="../handlers/add_to_cart.php" class="d-flex flex-wrap gap-2">
                                     <input type="hidden" name="product_id" value="<?= $p["id"] ?>">
                                     <input type="number" name="quantity" value="1" min="1"
                                            class="form-control form-control-sm me-2" style="max-width: 80px;">
