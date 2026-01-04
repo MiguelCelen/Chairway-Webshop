@@ -21,6 +21,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CHAIRWAY/Orders</title>
     <link rel="stylesheet" href="../public/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -102,26 +103,32 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <p>Je hebt nog geen orders.</p>
         <a href="Artikelen.php" class="btn btn-dark">Naar de shop</a>
     <?php else: ?>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Order</th>
-                <th>Producten</th>
-                <th>Totaal</th>
-                <th>Datum</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($orders as $o): ?>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle table-sm">
+                <thead>
                 <tr>
-                    <td><?= (int)$o["id"] ?></td>
-                    <td><?= htmlspecialchars((string)$o["details"]) ?></td>
-                    <td>€ <?= number_format((float)$o["total"], 2, ",", ".") ?></td>
-                    <td><?= htmlspecialchars((string)$o["created_at"]) ?></td>
+                    <th>Order</th>
+                    <th class="d-none d-md-table-cell">Producten</th>
+                    <th>Totaal</th>
+                    <th>Datum</th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <?php foreach ($orders as $o): ?>
+                    <tr>
+                        <td><?= (int)$o["id"] ?></td>
+                        <td class="d-none d-md-table-cell">
+                            <?= htmlspecialchars((string)$o["details"]) ?>
+                        </td>
+                        <td class="fw-semibold">
+                            € <?= number_format((float)$o["total"], 2, ",", ".") ?>
+                        </td>
+                        <td><?= htmlspecialchars((string)$o["created_at"]) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     <?php endif; ?>
 </div>
 </main>
