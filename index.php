@@ -34,7 +34,7 @@ $user = User::currentUser();
                       <a class="nav-link" href="pages/Artikelen.php">Products</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="pages/Winkelwagen.php">Shoppingcart</a>
+                      <a class="nav-link" href="pages/Winkelwagen.php">Shopping cart</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="pages/orders.php">Orders</a>
@@ -48,7 +48,7 @@ $user = User::currentUser();
                     <?php if ($user): ?>
                       <li class="nav-item d-flex align-items-center me-2">
                         <span class="navbar-text small">
-                          Hallo, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
+                          Hello, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
                         </span>
                       </li>
 
@@ -118,26 +118,23 @@ $user = User::currentUser();
                   
                   Discover the art of exceptional living with Chairway—your partner in crafting spaces you’ll love for years to come.
                 </p>
-                <a href="...">
-                  <button type="button" class="btn btn-dark">Dummy</button>
-                </a>
               </div>
             </div>
 
             <div id="top-selling-container" class="row" style="margin-top: 5rem;">
             </div>
 
-            <div class="row g-2" style="margin-top: 5rem;">
+            <div class="row g-2">
               <div class="col-12 col-lg-4 d-flex justify-content-center align-items-center mb-3 mb-lg-0">
-                <img src="Assets/Images/pawel-chu-ULh0i2txBCY-unsplash.jpg" class="img-fluid rounded" alt="Get in contact">
+                <img src="Assets/Images/mail.png" class="img-fluid w-50 rounded" alt="Get in contact">
               </div>
               <div class="col-12 col-lg-8">
                 <h2>Let's get in contact</h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique leo non erat semper, eu suscipit erat scelerisque.
-                  Suspendisse vitae fringilla turpis. Integer hendrerit sollicitudin tellus. Cras tempus eget nibh ut lacinia. 
-                  Morbi dignissim aliquet arcu, vel dapibus mauris egestas a.
-                  Aenean diam nisl, gravida at neque nec, imperdiet pretium mi. Mauris et pharetra sem.
+                 Do you have a question about our furniture, need styling advice, or want help finding 
+                 the perfect piece for your space? We’re here to help every step of the way. Whether you’re 
+                 furnishing a single room or redesigning your entire home, our team is happy to think along with you. 
+                 Get in touch with us and let’s create a home that feels just right — where quality, comfort, and timeless design come together to reflect your personal style.
                 </p>
                 <a href="pages/ContactUs.php">
                   <button type="button" class="btn btn-dark">Get in contact</button>
