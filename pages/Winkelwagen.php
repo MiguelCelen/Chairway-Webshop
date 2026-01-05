@@ -19,6 +19,7 @@ foreach ($cart as $item) {
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CHAIRWAY/Winkelwagen</title>
     <link rel="stylesheet" href="../public/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -97,43 +98,48 @@ foreach ($cart as $item) {
             <p>Je winkelwagen is leeg.</p>
             <a href="Artikelen.php" class="btn btn-dark">Verder winkelen</a>
         <?php else: ?>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Prijs</th>
-                    <th>Aantal</th>
-                    <th>Subtotaal</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($cart as $item): ?>
+            <div class="table-responsive">
+                <table class="table table-striped align-middle table-sm text-nowrap">
+                    <thead>
                     <tr>
-                        <td>
-                            <?php if (!empty($item["image"])): ?>
-                                <img src="<?= htmlspecialchars((string)$item["image"]) ?>" alt=""
-                                    style="height:40px;width:auto;margin-right:8px;">
-                            <?php endif; ?>
-                            <?= htmlspecialchars((string)$item["title"]) ?>
-                        </td>
-                        <td>€ <?= number_format((float)$item["price"], 2, ",", ".") ?></td>
-                        <td><?= (int)$item["quantity"] ?></td>
-                        <td>€ <?= number_format($item["price"] * $item["quantity"], 2, ",", ".") ?></td>
+                        <th>Product</th>
+                        <th class="d-none d-sm-table-cell">Prijs</th>
+                        <th class="text-center">Aantal</th>
+                        <th class="text-end">Subtotaal</th>
                     </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-
+                    </thead>
+                    <tbody>
+                    <?php foreach ($cart as $item): ?>
+                        <tr>
+                            <td class="d-flex align-items-center gap-2 text-truncate"">
+                                <?php if (!empty($item["image"])): ?>
+                                    <img src="<?= htmlspecialchars((string)$item["image"]) ?>" alt=""
+                                        class="img-fluid" style="height:40px; max-width:40px;">
+                                <?php endif; ?>
+                                <?= htmlspecialchars((string)$item["title"]) ?>
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                € <?= number_format((float)$item["price"], 2, ",", ".") ?>
+                            </td>
+                            <td class="text-center"><?= (int)$item["quantity"] ?></td>
+                            <td class="text-end">€ <?= number_format($item["price"] * $item["quantity"], 2, ",", ".") ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
             <h4 class="mt-3">Totaal: € <?= number_format($total, 2, ",", ".") ?></h4>
-            <div class="mt-3 d-flex gap-2">
-                <a href="Artikelen.php" class="btn btn-secondary">Verder winkelen</a>
-                <a href="Winkelwagen.php?clear=1" class="btn btn-outline-danger"
-                onclick="return confirm('Winkelwagen leegmaken?');">
-                    Leeg winkelwagen
-                </a>
+            <div class="mt-4 d-flex flex-column flex-md-row align-items-stretch gap-3">
+                <div class="d-flex flex-column flex-md-row gap-2">
+                    <a href="Artikelen.php" class="btn btn-secondary">Verder winkelen</a>
+                    <a href="Winkelwagen.php?clear=1" class="btn btn-outline-danger"
+                    onclick="return confirm('Winkelwagen leegmaken?');">
+                        Leeg winkelwagen
+                    </a>
+                </div>
                 <?php if ($user): ?>
-                    <form method="post" action="../handlers/place_order.php" class="ms-auto">
-                        <button type="submit" class="btn btn-success">
+                    <form method="post" action="../handlers/place_order.php" class="ms-md-auto w-100 w-md-auto d-flex">
+                        <button type="submit" class="btn btn-success px-4 py-2 w-100">
                             Bestel nu
                         </button>
                     </form>
