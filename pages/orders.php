@@ -108,22 +108,20 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <thead>
                 <tr>
                     <th>Order</th>
-                    <th class="d-none d-md-table-cell">Producten</th>
+                    <th>Producten</th>
                     <th>Totaal</th>
-                    <th>Datum</th>
+                    <th class="d-none d-md-table-cell">Datum</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($orders as $o): ?>
                     <tr>
                         <td><?= (int)$o["id"] ?></td>
-                        <td class="d-none d-md-table-cell">
-                            <?= htmlspecialchars((string)$o["details"]) ?>
-                        </td>
+                        <td><?= htmlspecialchars((string)$o["details"]) ?></td>
                         <td class="fw-semibold">
                             € <?= number_format((float)$o["total"], 2, ",", ".") ?>
                         </td>
-                        <td><?= htmlspecialchars((string)$o["created_at"]) ?></td>
+                        <td class="d-none d-md-table-cell"><?= htmlspecialchars((string)$o["created_at"]) ?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
