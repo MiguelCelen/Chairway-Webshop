@@ -47,7 +47,7 @@ foreach ($cart as $item) {
                 <a class="nav-link" href="Artikelen.php">Products</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Winkelwagen.php">Shoppingcart</a>
+                <a class="nav-link" href="Winkelwagen.php">Shopping cart</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="orders.php">Orders</a>
@@ -61,7 +61,7 @@ foreach ($cart as $item) {
                 <?php if ($user): ?>
                 <li class="nav-item d-flex align-items-center me-2">
                     <span class="navbar-text small">
-                    Hallo, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
+                    Hello, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
                     </span>
                 </li>
 
@@ -89,23 +89,23 @@ foreach ($cart as $item) {
 </header>
 <main>
     <div class="container my-5">
-        <h1 class="mb-4">Winkelwagen</h1>
+        <h1 class="mb-4">Shopping cart</h1>
         <?php if (!empty($_GET["error"])): ?>
             <div class="alert alert-danger"><?= htmlspecialchars((string)$_GET["error"]) ?></div>
         <?php endif; ?>
 
         <?php if (empty($cart)): ?>
-            <p>Je winkelwagen is leeg.</p>
-            <a href="Artikelen.php" class="btn btn-dark">Verder winkelen</a>
+            <p>Your shopping cart is empty.</p>
+            <a href="Artikelen.php" class="btn btn-dark">Continue shopping</a>
         <?php else: ?>
             <div class="table-responsive">
                 <table class="table table-striped align-middle table-sm text-nowrap">
                     <thead>
                     <tr>
                         <th>Product</th>
-                        <th class="d-none d-sm-table-cell">Prijs</th>
-                        <th class="text-center">Aantal</th>
-                        <th class="text-end">Subtotaal</th>
+                        <th class="d-none d-sm-table-cell">Price</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-end">Subtotal</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -128,23 +128,23 @@ foreach ($cart as $item) {
                     </tbody>
                 </table>
             </div>
-            <h4 class="mt-3">Totaal: € <?= number_format($total, 2, ",", ".") ?></h4>
+            <h4 class="mt-3">Total: € <?= number_format($total, 2, ",", ".") ?></h4>
             <div class="mt-4 d-flex flex-column flex-md-row align-items-stretch gap-3">
                 <div class="d-flex flex-column flex-md-row gap-2">
-                    <a href="Artikelen.php" class="btn btn-secondary">Verder winkelen</a>
+                    <a href="Artikelen.php" class="btn btn-secondary">Continue shopping</a>
                     <a href="Winkelwagen.php?clear=1" class="btn btn-outline-danger"
-                    onclick="return confirm('Winkelwagen leegmaken?');">
-                        Leeg winkelwagen
+                    onclick="return confirm('Empty shopping cart?');">
+                        Empty shopping cart
                     </a>
                 </div>
                 <?php if ($user): ?>
                     <form method="post" action="../handlers/place_order.php" class="ms-md-auto w-100 w-md-auto d-flex">
                         <button type="submit" class="btn btn-success px-4 py-2 w-100">
-                            Bestel nu
+                            Buy now
                         </button>
                     </form>
                 <?php else: ?>
-                    <a href="../login.php" class="btn btn-success ms-auto">Log in om te bestellen</a>
+                    <a href="../login.php" class="btn btn-success ms-auto">Please log in to place an order.</a>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
