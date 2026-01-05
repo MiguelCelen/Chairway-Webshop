@@ -37,6 +37,7 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="../Assets/Images/logo_chairway.png" type="icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= htmlspecialchars((string)$product["title"]) ?> - Chairway</title>
     <link rel="stylesheet" href="../public/css/style.css">
