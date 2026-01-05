@@ -67,7 +67,7 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
                 <a class="nav-link" href="Artikelen.php">Products</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Winkelwagen.php">Shoppingcart</a>
+                <a class="nav-link" href="Winkelwagen.php">Shopping cart</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="orders.php">Orders</a>
@@ -81,7 +81,7 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
                 <?php if ($user): ?>
                 <li class="nav-item d-flex align-items-center me-2">
                     <span class="navbar-text small">
-                    Hallo, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
+                    Hello, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
                     </span>
                 </li>
 
@@ -113,7 +113,7 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
     <h1 class="mb-4">Products</h1>
 
     <?php if (!empty($_GET["cart"]) && $_GET["cart"] === "added"): ?>
-        <div class="alert alert-success">Product toegevoegd aan Shoppingcart.</div>
+        <div class="alert alert-success">Product added to shopping cart.</div>
     <?php endif; ?>
 
     <?php if (!empty($_GET["error"])): ?>
@@ -122,16 +122,16 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
 
     <form class="row g-3 mb-4" method="get" action="Artikelen.php">
         <div class="col-12 col-md-3">
-            <label class="form-label">Product-name</label>
+            <label class="form-label">Product name</label>
             <input type="text" name="q" class="form-control"
-                   placeholder="Typ a product-name"
+                   placeholder="Typ a product name"
                    value="<?= htmlspecialchars($search) ?>">
         </div>
 
         <div class="col-12 col-md-3">
             <label class="form-label">Category</label>
             <select name="category" class="form-select">
-                <option value="">Alle categorieën</option>
+                <option value="">All categories</option>
                 <?php foreach ($categories as $cat): ?>
                     <option value="<?= htmlspecialchars($cat) ?>"
                         <?= $cat === $category ? "selected" : "" ?>>
@@ -142,7 +142,7 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
         </div>
 
         <div class="col-12 col-md-3">
-            <label class="form-label">Max. prijs (€)</label>
+            <label class="form-label">Max. price (€)</label>
             <input type="number" name="maxPrice" class="form-control"
                    value="<?= $maxPrice > 0 ? htmlspecialchars((string)$maxPrice) : "" ?>"
                    min="0" step="1">
@@ -155,7 +155,7 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
 
     <div class="row">
         <?php if (empty($products)): ?>
-            <p>Er zijn geen producten gevonden met deze filter.</p>
+            <p>No products were found with this filter.</p>
         <?php else: ?>
             <?php foreach ($products as $p): ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
