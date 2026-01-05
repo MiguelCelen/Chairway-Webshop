@@ -16,9 +16,9 @@
         <div class="col-12 col-md-5 d-flex align-items-center justify-content-center">
             <div class="w-90 w-md-75 px-3 px-md-0 mx-auto">
                 <a href="index.php"><img src="Assets/Icons/back-button.png" alt="black back button" style="width:25px;height:25px;"></a>
-                <h1 class="mb-3 text-center text-md-start">Welkom terug 👋</h1>
+                <h1 class="mb-3 text-center text-md-start">Welcome back 👋</h1>
                 <p class="text-muted mb-4">
-                    Log in om verder te gaan met shoppen bij <strong>Chairway</strong>.
+                    Please log in to continue shopping at <strong>Chairway</strong>.
                 </p>
 
                 <?php if (!empty($_SESSION["login_error"])): ?>
@@ -32,23 +32,23 @@
 
                 <form action="handlers/login.php" method="POST" class="needs-validation w-100" novalidate>
                     <div class="mb-3">
-                        <label for="email" class="form-label">E-mailadres</label>
+                        <label for="email" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="email" name="email" required>
-                        <div class="invalid-feedback">Vul een geldig e-mailadres in.</div>
+                        <div class="invalid-feedback">Please enter a valid email address.</div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">Wachtwoord</label>
+                        <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
-                        <div class="invalid-feedback">Vul je wachtwoord in.</div>
+                        <div class="invalid-feedback">Please enter your password.</div>
                     </div>
 
-                    <button type="submit" class="btn btn-dark w-100 py-2">Inloggen</button>
+                    <button type="submit" class="btn btn-dark w-100 py-2">Log in</button>
                 </form>
 
                 <p class="mt-3 small text-muted">
-                    Nog geen account?
-                    <a href="register.php">Registreer hier</a>
+                    Don't have an account yet?
+                    <a href="register.php">Register here</a>
                 </p>
             </div>
         </div>

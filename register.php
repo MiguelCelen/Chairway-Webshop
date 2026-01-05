@@ -15,33 +15,33 @@
         <div class="col-12 col-md-8 col-lg-5 d-flex align-items-center justify-content-center">
             <div class="w-90 w-md-75 px-3 px-md-0 mx-auto" style="max-width: 480px;">
                 <a href="index.php"><img src="Assets/Icons/back-button.png" alt="black back button" style="width:25px;height:25px;"></a>
-                <h1 class="mb-3">Maak een account aan 🪑</h1>
+                <h1 class="mb-3">Create an account 🪑</h1>
                 <p class="text-muted mb-4">
-                    Registreer je bij <strong>Chairway</strong> om te starten met shoppen.
+                    Register with <strong>Chairway</strong> to start shopping.
                 </p>
 
                 <form action="handlers/register.php" method="POST" class="needs-validation w-100" novalidate>
                     <div class="mb-3">
-                        <label for="name" class="form-label">Naam</label>
+                        <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" required>
-                        <div class="invalid-feedback">Vul je naam in.</div>
+                        <div class="invalid-feedback">Please enter your name.</div>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label">E-mailadres</label>
+                        <label for="email" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="email" name="email" required>
-                        <div class="invalid-feedback">Vul een geldig e-mailadres in.</div>
+                        <div class="invalid-feedback">Please enter a valid email address.</div>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Wachtwoord</label>
+                        <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
-                        <div class="invalid-feedback">Vul een wachtwoord in.</div>
+                        <div class="invalid-feedback">Enter a password.</div>
                     </div>
-                    <button type="submit" class="btn btn-dark w-100 py-2">Account aanmaken</button>
+                    <button type="submit" class="btn btn-dark w-100 py-2">Create account</button>
                 </form>
                 
                 <p class="mt-3 small text-muted">
-                    Al een account?
-                    <a href="login.php">Log hier in</a>
+                    Already have an account?
+                    <a href="login.php">Log in here</a>
                 </p>
             </div>
         </div>
