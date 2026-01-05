@@ -60,7 +60,7 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="Artikelen.php">Products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="Winkelwagen.php">Shoppingcart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Winkelwagen.php">Shopping cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="orders.php">Orders</a></li>
                     <li class="nav-item"><a class="nav-link" href="ContactUs.php">Contact us</a></li>
                 </ul>
@@ -68,7 +68,7 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php if ($user): ?>
                         <li class="nav-item d-flex align-items-center me-2">
                             <span class="navbar-text small">
-                                Hallo, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
+                                Hello, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
                             </span>
                         </li>
 
@@ -92,7 +92,7 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
 </header>
 <main>
     <div class="container" style="padding-top: 2rem;">
-    <a href="Artikelen.php" class="btn btn-secondary mb-3 w-10 w-md-auto">← Terug</a>
+    <a href="Artikelen.php" class="btn btn-secondary mb-3 w-10 w-md-auto">← Back</a>
 
     <?php if (isset($_GET["error"])): ?>
         <div class="alert alert-danger"><?= htmlspecialchars((string)$_GET["error"]) ?></div>
@@ -115,28 +115,28 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="col-12 col-md-6">
             <h1><?= htmlspecialchars((string)$product["title"]) ?></h1>
             <p class="lead">
-                Categorie: <?= htmlspecialchars((string)$product["category"]) ?><br>
+                Category: <?= htmlspecialchars((string)$product["category"]) ?><br>
                 <strong>€ <?= number_format((float)$product["price"], 2, ",", ".") ?></strong>
             </p>
             <p><?= nl2br(htmlspecialchars((string)($product["description"] ?? ""))) ?></p>
 
             <div class="mt-4">
-                <h5 class="mb-3">Kopen</h5>
+                <h5 class="mb-3">Buy</h5>
 
                 <div class="d-flex flex-column flex-sm-row gap-2 align-items-start align-items-sm-end">
                     <form method="post" action="../handlers/add_to_cart.php" class="d-flex flex-column flex-sm-row gap-2 align-items-start align-items-sm-end">
                         <input type="hidden" name="product_id" value="<?= (int)$productId ?>">
                         <div>
-                            <label class="form-label mb-1">Aantal</label>
+                            <label class="form-label mb-1">Quantity</label>
                             <input type="number" name="quantity" value="1" min="1" class="form-control w-100 w-sm-auto" style="max-width:120px;">
                         </div>
-                        <button type="submit" class="btn btn-outline-dark w-100 w-sm-auto">In winkelwagen</button>
+                        <button type="submit" class="btn btn-outline-dark w-100 w-sm-auto">Add to shopping cart.</button>
                     </form>
                 </div>
 
                 <?php if (!$user): ?>
                     <small class="text-warning d-block mt-2">
-                        Je bent niet ingelogd.
+                        You are not logged in.
                     </small>
                 <?php endif; ?>
             </div>
@@ -149,7 +149,7 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
     <div id="commentStatus" class="mb-3"></div>
     <div class="mb-4" id="commentList">
         <?php if (empty($comments)): ?>
-            <p id="noComments">Er zijn nog geen comments voor dit product.</p>
+            <p id="noComments">There are no comments for this product yet.</p>
         <?php else: ?>
             <?php foreach ($comments as $c): ?>
                 <div class="border rounded p-3 mb-3 bg-white">
@@ -162,7 +162,7 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?>
     </div>
     <?php if ($user): ?>
-        <h4>Schrijf een comment</h4>
+        <h4>Write a comment</h4>
 
         <form id="commentForm" method="post" action="../handlers/add_comment.php" class="mb-5">
             <input type="hidden" name="product_id" value="<?= (int)$productId ?>">
@@ -181,10 +181,10 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
                 <textarea name="message" class="form-control" rows="3" required></textarea>
             </div>
 
-            <button type="submit" class="btn btn-dark w-10 w-md-auto">Verstuur</button>
+            <button type="submit" class="btn btn-dark w-10 w-md-auto">Send</button>
         </form>
     <?php else: ?>
-        <p>Log in om een comment te plaatsen.</p>
+        <p>Please log in to post a comment.</p>
     <?php endif; ?>
 </div>
 </main>
