@@ -16,11 +16,11 @@ foreach ($cart as $item) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CHAIRWAY/Winkelwagen</title>
+    <title>CHAIRWAY/Shopping cart</title>
     <link rel="stylesheet" href="../public/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -151,7 +151,7 @@ foreach ($cart as $item) {
     </div>
 </main>
 <footer class="text-center p-3 mt-5">
-    © 2025 Copyright: Chairway
+    © 2026 Copyright: Chairway
 </footer>
 </body>
 </html>

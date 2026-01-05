@@ -5,7 +5,7 @@ $pdo  = Database::getConnection();
 $user = User::currentUser();
 $productId = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
 if ($productId <= 0) {
-    echo "Ongeldig product.";
+    echo "Invalid product.";
     exit;
 }
 
@@ -18,7 +18,7 @@ $stmt->execute([$productId]);
 $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$product) {
-    echo "Product niet gevonden.";
+    echo "Product not found.";
     exit;
 }
 
@@ -34,7 +34,7 @@ $commentsStmt->execute([$productId]);
 $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -189,7 +189,7 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 </main>
 <footer class="text-center p-3 mt-5">
-    © 2025 Copyright: Chairway
+    © 2026 Copyright: Chairway
 </footer>
 
 <script>

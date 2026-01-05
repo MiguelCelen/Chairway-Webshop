@@ -18,7 +18,7 @@ $stmt->execute([$user["id"]]);
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -131,7 +131,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 </main>
 <footer class="text-center p-3 mt-5">
-    © 2025 Copyright: Chairway
+    © 2026 Copyright: Chairway
 </footer>
 </body>
 </html>

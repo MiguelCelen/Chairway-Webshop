@@ -3,7 +3,7 @@ require_once "config.php";
 $user = User::currentUser();
 
 ?><!DOCTYPE html>
-    <html lang="nl">
+    <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -147,7 +147,7 @@ $user = User::currentUser();
         <footer>
           <div class="row g-2"></div>
           <div class="text-center p-3" style="margin-top: 5rem;">
-            © 2025 Copyright: Chairway
+            © 2026 Copyright: Chairway
           </div>
         </footer>
 
