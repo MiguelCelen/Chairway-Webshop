@@ -49,7 +49,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <a class="nav-link" href="Artikelen.php">Products</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="Winkelwagen.php">Shoppingcart</a>
+                <a class="nav-link" href="Winkelwagen.php">Shopping cart</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="orders.php">Orders</a>
@@ -63,7 +63,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php if ($user): ?>
                 <li class="nav-item d-flex align-items-center me-2">
                     <span class="navbar-text small">
-                    Hallo, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
+                    Hello, <?= htmlspecialchars((string)($user["name"] ?? $user["email"])) ?>
                     </span>
                 </li>
 
@@ -91,26 +91,26 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </header>
 <main>
 <div class="container my-5">
-    <h1 class="mb-4">Jouw orders</h1>
+    <h1 class="mb-4">Your orders</h1>
 
     <?php if (!empty($_GET["success"])): ?>
         <div class="alert alert-success">
-            Je bestelling is geplaatst (order #<?= htmlspecialchars((string)($_GET["order_id"] ?? "")) ?>).
+            Your order has been placed (order #<?= htmlspecialchars((string)($_GET["order_id"] ?? "")) ?>).
         </div>
     <?php endif; ?>
 
     <?php if (empty($orders)): ?>
-        <p>Je hebt nog geen orders.</p>
-        <a href="Artikelen.php" class="btn btn-dark">Naar de shop</a>
+        <p>You do not have any orders yet.</p>
+        <a href="Artikelen.php" class="btn btn-dark">To the shop</a>
     <?php else: ?>
         <div class="table-responsive">
             <table class="table table-striped align-middle table-sm">
                 <thead>
                 <tr>
                     <th>Order</th>
-                    <th>Producten</th>
-                    <th>Totaal</th>
-                    <th class="d-none d-md-table-cell">Datum</th>
+                    <th>Products</th>
+                    <th>Total</th>
+                    <th class="d-none d-md-table-cell">Date</th>
                 </tr>
                 </thead>
                 <tbody>
