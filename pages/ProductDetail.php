@@ -9,6 +9,13 @@ if ($productId <= 0) {
     exit;
 }
 
+$staticProductImages = [
+    1 => "../Assets/Images/klippan.png",
+    2 => "../Assets/Images/perjohan.png",
+    3 => "../Assets/Images/kivik.png",
+    4 => "../Assets/Images/bergmund.png",
+];
+
 $stmt = $pdo->prepare("
     SELECT id, title, price, category, image, description
     FROM products
@@ -104,10 +111,13 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="row g-4">
         <div class="col-12 col-md-6">
-            <?php if (!empty($product["image"])): ?>
-                <img src="<?= htmlspecialchars((string)$product["image"]) ?>"
-                     alt="<?= htmlspecialchars((string)$product["title"]) ?>"
-                     class="img-fluid mb-3">
+            <?php
+                $img = $staticProductImages[$productId] ?? (string)($product["image"] ?? "");
+            ?>
+            <?php if (!empty($img)): ?>
+                <img src="<?= htmlspecialchars($img) ?>"
+                    alt="<?= htmlspecialchars((string)$product["title"]) ?>"
+                    class="img-fluid mb-3">
             <?php else: ?>
                 <div class="bg-secondary" style="width:100%;height:300px;"></div>
             <?php endif; ?>

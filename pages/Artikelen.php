@@ -35,6 +35,12 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $catStmt = $pdo->query("SELECT DISTINCT category FROM products ORDER BY category");
 $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
+$staticProductImages = [
+    1 => "../Assets/Images/klippan.png",
+    2 => "../Assets/Images/perjohan.png",
+    3 => "../Assets/Images/kivik.png",
+    4 => "../Assets/Images/bergmund.png",
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -161,9 +167,13 @@ $categories = $catStmt->fetchAll(PDO::FETCH_COLUMN);
             <?php foreach ($products as $p): ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                     <div class="card h-100">
-                        <?php if (!empty($p["image"])): ?>
-                            <img src="<?= htmlspecialchars((string)$p["image"]) ?>" class="card-img-top img-fluid"
-                                 alt="<?= htmlspecialchars((string)$p["title"]) ?>">
+                        <?php
+                            $pid = (int)$p["id"];
+                            $img = $staticProductImages[$pid] ?? (string)($p["image"] ?? "");
+                        ?>
+                        <?php if (!empty($img)): ?>
+                            <img src="<?= htmlspecialchars($img) ?>" class="card-img-top"
+                                alt="<?= htmlspecialchars((string)$p["title"]) ?>">
                         <?php endif; ?>
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><?= htmlspecialchars((string)$p["title"]) ?></h5>
