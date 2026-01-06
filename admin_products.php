@@ -10,6 +10,44 @@ $pdo = Database::getConnection();
 $error = "";
 $success = "";
 
+function uploadProductImage(string $fieldName, string &$error): string
+{
+    if (!isset($_FILES[$fieldName]) || ($_FILES[$fieldName]["error"] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+        return "";
+    }
+
+    if ($_FILES[$fieldName]["error"] !== UPLOAD_ERR_OK) {
+        $error = "Upload failed (errorcode: " . (int)$_FILES[$fieldName]["error"] . ").";
+        return "";
+    }
+
+    $ext = strtolower(pathinfo((string)$_FILES[$fieldName]["name"], PATHINFO_EXTENSION));
+    $allowed = ["jpg", "jpeg", "png", "webp"];
+    if (!in_array($ext, $allowed, true)) {
+        $error = "Invalid file type. Please use jpg, jpeg, png, or webp.";
+        return "";
+    }
+
+    $uploadDirAbs = __DIR__ . "/public/uploads/products";
+    if (!is_dir($uploadDirAbs)) {
+        @mkdir($uploadDirAbs, 0755, true);
+    }
+    if (!is_dir($uploadDirAbs) || !is_writable($uploadDirAbs)) {
+        $error = "Upload folder is not writable: public/uploads/products";
+        return "";
+    }
+
+    $filename = "p_" . time() . "_" . bin2hex(random_bytes(6)) . "." . $ext;
+    $targetAbs = $uploadDirAbs . "/" . $filename;
+
+    if (!move_uploaded_file((string)$_FILES[$fieldName]["tmp_name"], $targetAbs)) {
+        $error = "Could not save the file.";
+        return "";
+    }
+
+    return "../public/uploads/products/" . $filename;
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST["action"] ?? "";
 
@@ -18,17 +56,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $price       = (float)($_POST["price"] ?? 0);
         $category    = trim($_POST["category"] ?? "");
         $description = trim($_POST["description"] ?? "");
-        $image       = "";
+        $image = uploadProductImage("image_file", $error);
 
         if ($title === "" || $price <= 0) {
-            $error = "Titel en prijs zijn verplicht.";
-        } else {
+            $error = "Title and price are required.";
+        } elseif ($error === "") {
             $stmt = $pdo->prepare("
                 INSERT INTO products (title, price, category, image, description)
                 VALUES (?, ?, ?, ?, ?)
             ");
             $stmt->execute([$title, $price, $category, $image, $description]);
-            $success = "Product toegevoegd.";
+            $success = "Product added.";
         }
 
     } 
@@ -38,17 +76,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $price       = (float)($_POST["price"] ?? 0);
         $category    = trim($_POST["category"] ?? "");
         $description = trim($_POST["description"] ?? "");
+        $currentImage = (string)($_POST["current_image"] ?? "");
+
+        $newImage = uploadProductImage("image_file", $error);
+        $imageToSave = $newImage !== "" ? $newImage : $currentImage;
 
         if ($id <= 0 || $title === "" || $price <= 0) {
-            $error = "Ongeldige productgegevens.";
-        } else {
+            $error = "Invalid product data.";
+        } elseif ($error === "") {
             $stmt = $pdo->prepare("
                 UPDATE products
-                SET title = ?, price = ?, category = ?, description = ?
+                SET title = ?, price = ?, category = ?, image = ?, description = ?
                 WHERE id = ?
             ");
-            $stmt->execute([$title, $price, $category, $description, $id]);
-            $success = "Product bijgewerkt.";
+            $stmt->execute([$title, $price, $category, $imageToSave, $description, $id]);
+            $success = "Product updated.";
         }
 
     } 
@@ -57,9 +99,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($id > 0) {
             $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
             $stmt->execute([$id]);
-            $success = "Product verwijderd.";
+            $success = "delete product.";
         } else {
-            $error = "Ongeldig product.";
+            $error = "Invalid product.";
         }
     }
 }
@@ -69,7 +111,7 @@ if (isset($_GET["edit"])) {
     $editId = (int)$_GET["edit"];
     if ($editId > 0) {
         $stmt = $pdo->prepare("
-            SELECT id, title, price, category, description
+            SELECT id, title, price, category, description, image
             FROM products
             WHERE id = ?
         ");
@@ -88,11 +130,12 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $user = User::currentUser();
 ?>
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="Assets/Images/logo_chairway.png" type="icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin - Producten beheren</title>
+    <title>CHAIRWAY/Admin/Manage products</title>
     <link rel="stylesheet" href="public/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -111,13 +154,12 @@ $user = User::currentUser();
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link" href="pages/Artikelen.php">Products</a></li>
-        <li class="nav-item"><a class="nav-link active" href="admin_products.php">Admin producten</a></li>
-        <li class="nav-item"><a class="nav-link" href="admin_product_images.php">Product afbeeldingen</a></li>
+        <li class="nav-item"><a class="nav-link active" href="admin_products.php">Admin products</a></li>
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item d-flex align-items-center me-2">
             <span class="navbar-text small">
-                <?= htmlspecialchars((string)("Hallo, " . $user["name"] ?? "")) ?>
+                <?= htmlspecialchars((string)("Hello, " . $user["name"] ?? "")) ?>
             </span>
         </li>
         <li class="nav-item"><a class="nav-link" href="handlers/logout.php">Logout</a></li>
@@ -127,7 +169,7 @@ $user = User::currentUser();
 </nav>
 <main>
 <div class="container my-4">
-    <h1 class="mb-4">Producten beheren</h1>
+    <h1 class="mb-4">Manage products</h1>
     <?php if ($success): ?>
         <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
     <?php endif; ?>
@@ -136,43 +178,56 @@ $user = User::currentUser();
     <?php endif; ?>
 
     <div class="card mb-4">
-        <div class="card-header">Nieuw product toevoegen</div>
+        <div class="card-header">Add new product</div>
         <div class="card-body">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="add">
                 <div class="row g-2">
                     <div class="col-12 col-md-3">
-                        <label class="form-label">Titel</label>
+                        <label class="form-label">Title</label>
                         <input type="text" name="title" class="form-control" required>
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">Prijs (€)</label>
+                        <label class="form-label">Price (€)</label>
                         <input type="number" name="price" class="form-control" min="0" step="0.01" required>
                     </div>
                     <div class="col-12 col-md-3">
-                        <label class="form-label">Categorie</label>
+                        <label class="form-label">Category</label>
                         <input type="text" name="category" class="form-control">
                     </div>
                     <div class="col-12 col-md-3">
-                        <label class="form-label">Beschrijving</label>
+                        <label class="form-label">Description</label>
                         <input type="text" name="description" class="form-control">
                     </div>
+                    <div class="col-md-4 mx-auto">
+                        <label class="form-label" for="f">Photo (optional)</label>
+                        <input id="f" type="file" name="image_file" class="d-none" accept="image/*">
+
+                        <div class="input-group">
+                        <label class="btn btn-outline-secondary" for="f">Choose file</label>
+                        <input id="fn" class="form-control" value="No file chosen" readonly>
+                        </div>
+
+                        <script>
+                        f.onchange = () => fn.value = f.files[0]?.name || "No file chosen";
+                        </script>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-dark mt-3">Product toevoegen</button>
+                <button type="submit" class="btn btn-dark mt-3">Add product</button>
             </form>
         </div>
     </div>
 
-    <h2 class="h4 mb-3">Bestaande producten</h2>
+    <h2 class="h4 mb-3">Existing products</h2>
     <div class="table-responsive">
     <table class="table table-striped align-middle table-sm">
         <thead>
         <tr>
             <th class="d-none d-md-table-cell">ID</th>
-            <th>Titel</th>
-            <th class="d-none d-sm-table-cell">Categorie</th>
-            <th>Prijs</th>
-            <th>Acties</th>
+            <th>Title</th>
+            <th class="d-none d-sm-table-cell">Category</th>
+            <th>Price</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -185,14 +240,14 @@ $user = User::currentUser();
                 <td class="d-flex flex-column flex-md-row gap-2">
                     <a href="admin_products.php?edit=<?= (int)$p["id"] ?>"
                     class="btn btn-sm btn-outline-primary w-100 w-md-auto">
-                        Bewerken
+                        Edit
                     </a>
 
                     <form method="post" onsubmit="return confirm('Zeker verwijderen?');" class="w-100 w-md-auto">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="id" value="<?= (int)$p["id"] ?>">
                         <button type="submit" class="btn btn-sm btn-outline-danger w-100 w-md-auto">
-                            Verwijderen
+                            Delete
                         </button>
                     </form>
                 </td>
@@ -205,38 +260,52 @@ $user = User::currentUser();
     <?php if ($editProduct): ?>
         <div class="card mt-4">
             <div class="card-header">
-                Product bewerken #<?= (int)$editProduct["id"] ?>
+                Edit product #<?= (int)$editProduct["id"] ?>
             </div>
             <div class="card-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="id" value="<?= (int)$editProduct["id"] ?>">
+                    <input type="hidden" name="current_image" value="<?= htmlspecialchars((string)($editProduct["image"] ?? "")) ?>">
 
                     <div class="row g-2">
                         <div class="col-md-3">
-                            <label class="form-label">Titel</label>
+                            <label class="form-label">Title</label>
                             <input type="text" name="title" class="form-control"
                                    value="<?= htmlspecialchars((string)$editProduct["title"]) ?>" required>
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">Prijs (€)</label>
+                            <label class="form-label">Price (€)</label>
                             <input type="number" name="price" class="form-control" min="0" step="0.01"
                                    value="<?= htmlspecialchars((string)$editProduct["price"]) ?>" required>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Categorie</label>
+                            <label class="form-label">Category</label>
                             <input type="text" name="category" class="form-control"
                                    value="<?= htmlspecialchars((string)$editProduct["category"]) ?>">
                         </div>
                         <div class="col-12 col-md-4">
-                            <label class="form-label">Beschrijving</label>
+                            <label class="form-label">Description</label>
                             <input type="text" name="description" class="form-control"
                                    value="<?= htmlspecialchars((string)$editProduct["description"]) ?>">
                         </div>
+                        <div class="col-md-4 mx-auto">
+                            <label class="form-label" for="f">New photo (optional)</label>
+                            <input id="f" type="file" name="image_file" class="d-none" accept="image/*">
+
+                            <div class="input-group">
+                            <label class="btn btn-outline-secondary" for="f">Choose file</label>
+                            <input id="fn" class="form-control" value="No file chosen" readonly>
+                            </div>
+
+                            <script>
+                            f.onchange = () => fn.value = f.files[0]?.name || "No file chosen";
+                            </script>
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-3">Opslaan</button>
-                    <a href="admin_products.php" class="btn btn-secondary mt-3">Annuleren</a>
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                    <a href="admin_products.php" class="btn btn-secondary mt-3">Cancel</a>
                 </form>
             </div>
         </div>
@@ -244,7 +313,7 @@ $user = User::currentUser();
 </div>
 </main>
 <footer class="text-center p-3 mt-5">
-    © 2025 Copyright: Chairway
+    © 2026 Copyright: Chairway
 </footer>
 </body>
 </html>
