@@ -243,7 +243,7 @@ $user = User::currentUser();
                         Edit
                     </a>
 
-                    <form method="post" onsubmit="return confirm('Zeker verwijderen?');" class="w-100 w-md-auto">
+                    <form method="post" onsubmit="return confirm('Are you sure you want to delete this?');" class="w-100 w-md-auto">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="id" value="<?= (int)$p["id"] ?>">
                         <button type="submit" class="btn btn-sm btn-outline-danger w-100 w-md-auto">
