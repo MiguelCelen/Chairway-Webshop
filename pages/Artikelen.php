@@ -114,7 +114,7 @@ $staticProductImages = [
         </div>
     </nav>
 
-    <div class="row" style="background: #b9b9b9; height: 500px;"></div>
+    <div class="row" style="background-image: url(../Assets/Images/pexels-tima-miroshnichenko-6827242.jpg); height: 500px; background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
 </header>
 <main class="container my-5" style="margin-top: 6rem;">
     <h1 class="mb-4">Products</h1>
