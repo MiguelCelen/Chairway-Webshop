@@ -19,7 +19,7 @@ require_once __DIR__ . "/../config.php";
 <div class="container-fluid min-vh-100 d-flex align-items-center">
     <div class="row flex-grow-1 justify-content-center">
         <div class="col-12 col-md-5 d-flex align-items-center justify-content-center">
-            <div class="w-90 w-md-75 px-3 px-md-0 mx-auto">
+            <div class="w-100 px-3 px-md-0 mx-auto" style="max-width: 500px;">
 
                 <a href="../login.php">
                     <img src="../Assets/Icons/back-button.png" alt="black back button" style="width:25px;height:25px;">

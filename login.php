@@ -30,6 +30,13 @@
                         ?>
                     </div>
                 <?php endif; ?>
+                <?php if (!empty($_SESSION["login_success"])): ?>
+                <div class="alert alert-success">
+                    <?= htmlspecialchars((string)$_SESSION["login_success"]) ?>
+                </div>
+                <?php unset($_SESSION["login_success"]); ?>
+                <?php endif; ?>
+
 
                 <form action="handlers/login.php" method="POST" class="needs-validation w-100" novalidate>
                     <div class="mb-3">
@@ -49,7 +56,9 @@
 
                 <p class="mt-3 small text-muted">
                     Don't have an account yet?
-                    <a href="register.php">Register here</a>
+                    <a href="register.php">Register here</a><br>
+                    Forgot password?
+                    <a href="../Chairway-Webshop/pages/change_password.php">Change password</a>
                 </p>
             </div>
         </div>
