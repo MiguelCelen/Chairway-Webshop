@@ -12,12 +12,12 @@ $_SESSION["register_old"] = [
 
 try {
     if ($email === "" || $password === "") {
-        throw new Exception("Vul je e-mailadres en wachtwoord in.");
+        throw new Exception("Please enter your email address and password.");
     }
 
     User::register($email, $password, $name);
     unset($_SESSION["register_old"]);
-    $_SESSION["register_success"] = "Account aangemaakt! Je kan nu inloggen.";
+    $_SESSION["register_success"] = "Account created! You can now log in.";
     header("Location: ../login.php");
     exit;
 
