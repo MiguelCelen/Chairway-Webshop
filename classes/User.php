@@ -69,4 +69,34 @@ class User
     {
         unset($_SESSION["user"]);
     }
+
+    public static function changePasswordByEmail(string $email, string $currentPassword, string $newPassword): void
+{
+    $pdo = Database::getConnection();
+
+    $email = trim($email);
+    $currentPassword = trim($currentPassword);
+    $newPassword = trim($newPassword);
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        throw new Exception("Please provide a valid email address.");
+    }
+
+    if (strlen($newPassword) < 6) {
+        throw new Exception("New password must contain at least 6 characters.");
+    }
+
+    $stmt = $pdo->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row || !password_verify($currentPassword, $row["password"])) {
+        throw new Exception("Email address or current password is incorrect.");
+    }
+
+    $hashed = password_hash($newPassword, PASSWORD_DEFAULT);
+    $upd = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
+    $upd->execute([$hashed, (int)$row["id"]]);
+}
+
 }
