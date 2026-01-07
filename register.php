@@ -1,4 +1,11 @@
-<?php require_once "config.php"; ?>
+<?php 
+require_once "config.php"; 
+$registerError = $_SESSION["register_error"] ?? null;
+$registerSuccess = $_SESSION["register_success"] ?? null;
+$old = $_SESSION["register_old"] ?? ["name" => "", "email" => ""];
+
+unset($_SESSION["register_error"], $_SESSION["register_success"]);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +27,18 @@
                 <p class="text-muted mb-4">
                     Register with <strong>Chairway</strong> to start shopping.
                 </p>
+
+                <?php if ($registerError): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= htmlspecialchars($registerError) ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($registerSuccess): ?>
+                    <div class="alert alert-success" role="alert">
+                        <?= htmlspecialchars($registerSuccess) ?>
+                    </div>
+                <?php endif; ?>
 
                 <form action="handlers/register.php" method="POST" class="needs-validation w-100" novalidate>
                     <div class="mb-3">
